@@ -1,0 +1,55 @@
+{
+  "name": "bsky-rss-bot",
+  "version": "0.0.0",
+  "description": "Post an RSS or Atom feed to Bluesky.",
+  "keywords": [
+    "bluesky",
+    "bsky",
+    "atproto",
+    "rss",
+    "atom",
+    "feed",
+    "bot"
+  ],
+  "author": "André Ruffert (https://andreruffert.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreruffert/bsky-rss-bot.git"
+  },
+  "homepage": "https://github.com/andreruffert/bsky-rss-bot#readme",
+  "bugs": {
+    "url": "https://github.com/andreruffert/bsky-rss-bot/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "test": "node --test ",
+    "lint": "biome ci",
+    "format": "biome check --write --unsafe",
+    "prepublishOnly": "npm test && npm run lint"
+  },
+  "dependencies": {
+    "@atproto/api": "0.24.3",
+    "fast-xml-parser": "5.11.2",
+    "sharp": "0.35.5",
+    "url-metadata": "5.4.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.10"
+  },
+  "volta": {
+    "node": "26.12.1",
+    "npm": "12.2.1"
+  }
+}

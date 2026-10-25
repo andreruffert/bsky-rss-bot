@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: 'package.json'
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit
+      - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.12.0', 22, 24, 26]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit
+      - run: npm test
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: 'package.json'
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit
+      - name: Show package contents
+        run: npm pack --dry-run
+      - name: Install the packed tarball and import it
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          mkdir "$RUNNER_TEMP/smoke"
+          cd "$RUNNER_TEMP/smoke"
+          npm init -y > /dev/null
+          npm install "$RUNNER_TEMP"/bsky-rss-bot-*.tgz
+          node --input-type=module -e "
+            import Bot from 'bsky-rss-bot';
+            new Bot({
+              feedUrl: 'https://example.com/feed.xml',
+              account: { identifier: 'bot.example.com', password: 'secret' },
+            });
+            console.log('import ok');
+          "
