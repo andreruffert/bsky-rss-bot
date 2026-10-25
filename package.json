@@ -40,7 +40,7 @@
     "prepublishOnly": "npm test && npm run lint"
   },
   "dependencies": {
-    "@atproto/api": "0.24.3",
+    "@atproto/api": "0.29.1",
     "fast-xml-parser": "5.11.2",
     "sharp": "0.35.5",
     "url-metadata": "5.4.3"
