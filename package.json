@@ -43,7 +43,7 @@
     "@atproto/api": "0.29.1",
     "fast-xml-parser": "5.11.2",
     "sharp": "0.35.5",
-    "url-metadata": "5.4.3"
+    "url-metadata": "6.3.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.10"
