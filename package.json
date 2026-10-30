@@ -46,7 +46,7 @@
     "url-metadata": "5.4.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.10"
+    "@biomejs/biome": "2.6.2"
   },
   "volta": {
     "node": "26.12.1",
